@@ -33,10 +33,10 @@ include(${_project_options_SOURCE_DIR}/Index.cmake)
 
 # Set the project name and language
 project(
-  myproject
+  cpp_template_lpf
   VERSION 0.0.1
   DESCRIPTION ""
-  HOMEPAGE_URL "%%myurl%%"
+  HOMEPAGE_URL "https://github.com/OxfordRSE/cpp-template-lpf"
   LANGUAGES CXX C)
 
 # This variable is set by project() in CMake 3.21+
@@ -123,8 +123,8 @@ dynamic_project_options(
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
 # TODO: The INTERFACE library NAMESPACE ALIAS are missing! CK
-add_library(myproject::project_options INTERFACE IMPORTED)
-add_library(myproject::project_warnings INTERFACE IMPORTED)
+add_library(cpp_template_lpf::project_options INTERFACE IMPORTED)
+add_library(cpp_template_lpf::project_warnings INTERFACE IMPORTED)
 
 # configure files based on CMake configuration options
 add_subdirectory(configured_files)
