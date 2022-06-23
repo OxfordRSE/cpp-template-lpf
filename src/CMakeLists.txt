@@ -7,7 +7,7 @@ add_executable(intro
   main.cpp
   low_pass_filter.cpp
   low_pass_filter.hpp
-  Config.hpp
+  LpfConfig.hpp
   )
 target_link_libraries(
   intro
