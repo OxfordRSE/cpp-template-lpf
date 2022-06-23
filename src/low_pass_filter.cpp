@@ -13,7 +13,7 @@
 class LowPassFilter
 {
 public:
-  LowPassFilter(const size_t n, const std::vector<double>::iterator &data_block)
+  LowPassFilter(const std::size_t n, const std::vector<double>::iterator &data_block)
     : m_weights(n), m_data_block(data_block)
   {
     const unsigned seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
@@ -37,7 +37,7 @@ private:
 
 void cpp_template_lpf::low_pass_filter(std::ifstream &reader, std::ofstream &writer, const LpfConfig &config)
 {
-  const auto n_blocks = static_cast<size_t>(std::floor(config.input_data_size / config.block_data_size));
+  const auto n_blocks = static_cast<std::size_t>(std::floor(config.input_data_size / config.block_data_size));
   // create some vectors for processing the data
   std::vector<double> halo_and_block(config.block_data_size + config.halo_size, 0.);
   std::vector<double> processed_block(config.block_data_size);
@@ -56,7 +56,7 @@ void cpp_template_lpf::low_pass_filter(std::ifstream &reader, std::ofstream &wri
   // we need a "halo" of data at the start of the halo_and_block vector that is at least
   // the size of the low pass filter weights, initially this will be 0, but at the end
   // of each iteration we will fill this "halo" using the last data block
-  for (size_t i = 0; i < n_blocks; i++) {
+  for (std::size_t i = 0; i < n_blocks; i++) {
 
     // read next block
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)

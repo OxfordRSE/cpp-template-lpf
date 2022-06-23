@@ -14,7 +14,7 @@
 
 #include "low_pass_filter.hpp"
 
-void write_test_file(const size_t n, const std::string &filename)
+void write_test_file(const std::size_t n, const std::string &filename)
 {
   std::ofstream writer(filename, std::ios::out | std::ios::binary);
   if (!writer) { throw std::system_error(errno, std::system_category(), fmt::format("Failed to open {}", filename)); }
