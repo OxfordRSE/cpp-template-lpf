@@ -7,13 +7,14 @@
 #include <random>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "low_pass_filter.hpp"
 
 class LowPassFilter
 {
 public:
-  LowPassFilter(const std::size_t n, const std::vector<double>::iterator &data_block)
+  LowPassFilter(const std::size_t n, const std::vector<double>::iterator data_block)
     : m_weights(n), m_data_block(data_block)
   {
     const unsigned seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
