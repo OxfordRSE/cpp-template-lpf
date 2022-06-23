@@ -129,6 +129,7 @@ jobs:
           conan: true
           vcpkg: false
           ccache: true
+          llvm: false
           clangtidy: ${{ env.CLANG_TIDY_VERSION }}
 
 
