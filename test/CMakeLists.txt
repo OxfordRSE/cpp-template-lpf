@@ -52,39 +52,3 @@ catch_discover_tests(
   "unittests."
   OUTPUT_SUFFIX
   .xml)
-
-# Add a file containing a set of constexpr tests
-add_executable(constexpr_tests constexpr_tests.cpp)
-target_link_libraries(constexpr_tests PRIVATE cpp_template_lpf::project_options cpp_template_lpf::project_warnings catch_main)
-
-catch_discover_tests(
-  constexpr_tests
-  TEST_PREFIX
-  "constexpr."
-  REPORTER
-  xml
-  OUTPUT_DIR
-  .
-  OUTPUT_PREFIX
-  "constexpr."
-  OUTPUT_SUFFIX
-  .xml)
-
-# Disable the constexpr portion of the test, and build again this allows us to have an executable that we can debug when
-# things go wrong with the constexpr testing
-add_executable(relaxed_constexpr_tests constexpr_tests.cpp)
-target_link_libraries(relaxed_constexpr_tests PRIVATE cpp_template_lpf::project_options cpp_template_lpf::project_warnings catch_main)
-target_compile_definitions(relaxed_constexpr_tests PRIVATE -DCATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
-
-catch_discover_tests(
-  relaxed_constexpr_tests
-  TEST_PREFIX
-  "relaxed_constexpr."
-  REPORTER
-  xml
-  OUTPUT_DIR
-  .
-  OUTPUT_PREFIX
-  "relaxed_constexpr."
-  OUTPUT_SUFFIX
-  .xml)
