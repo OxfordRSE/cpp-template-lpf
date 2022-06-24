@@ -129,8 +129,7 @@ jobs:
           conan: true
           vcpkg: false
           ccache: true
-          llvm: false
-          clangtidy: false
+          clangtidy: true
 
 
           cppcheck: true
