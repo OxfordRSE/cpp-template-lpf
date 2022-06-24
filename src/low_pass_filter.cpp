@@ -42,7 +42,7 @@ void cpp_template_lpf::low_pass_filter(std::ifstream &reader, std::ofstream &wri
   // create some vectors for processing the data
   std::vector<double> halo_and_block(config.block_data_size + config.halo_size, 0.);
   std::vector<double> processed_block(config.block_data_size);
-  std::vector<double> indices(config.block_data_size);
+  std::vector<int> indices(config.block_data_size);
   std::iota(std::begin(indices), std::end(indices), 0);
 
   // get an iterator to the actual data block (after the halo)
