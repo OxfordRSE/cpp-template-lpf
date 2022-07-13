@@ -1,40 +1,53 @@
 # Installation for RockyLinux8.6
 
 1. Clang 13.0.
-	<details>
-	<summary>Install command</summary>
-			sudo dnf install clang
-	</details>
+    <details>
+    <summary>Install command</summary>
+            sudo dnf install clang
+    </details>
 
-2.  Conan
-	<details>
-	<summary>Install command</summary>
-			pip install conan
+2. Conan
+    <details>
+    <summary>Install command</summary>
+            pip install conan
 	
-	In this case do not need to use sudo
-	</details>
+    In this case do not need to use sudo
+    </details>
 
 3. CMake
-	<details>
-	<summary>Install command</summary>
-			sudo dnf install clang
-	</details>
+    <details>
+    <summary>Install command</summary>
+            sudo dnf install clang
+    </details>
 
 4. Doxygen
-	<details>
-	<summary>Install command</summary>
-			sudo dnf install doxygen
-			sudo dnf install graphviz
-	</details>
+    <details>
+    <summary>Install command</summary>
+            sudo dnf install doxygen
+            sudo dnf install graphviz
+    </details>
 
 5. ccache
-	<details>
-	<summary>Install command</summary>
-			sudo dnf install ccache
-	</details>
+    <details>
+    <summary>Install command</summary>
+            sudo dnf install ccache
+    </details>
 
 6. Cppcheck
-	<details>
-	<summary>Install command</summary>
-			sudo dnf install cppcheck
-	</details>
+    <details>
+    <summary>Install command</summary>
+            sudo dnf install cppcheck
+    </details>
+
+7. libasan
+    <details>
+    <summary>Install command</summary>
+            sudo dnf install libasan
+    </details>
+
+7. libubsan
+    <details>
+    <summary>Install command</summary>
+            sudo dnf install libubsan
+    </details>
+
