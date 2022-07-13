@@ -24,10 +24,10 @@ public:
     std::generate(std::begin(m_weights), std::end(m_weights), [&]() { return distribution(generator); });
   }
 
-  double operator()(const int i) const
+  double operator()(const int index) const
   {
     return std::inner_product(
-      std::begin(m_weights), std::end(m_weights), m_data_block + i - static_cast<long>(m_weights.size()), 0.);
+      std::begin(m_weights), std::end(m_weights), m_data_block + index - static_cast<long>(m_weights.size()), 0.);
   }
 
 private:
