@@ -39,15 +39,16 @@
             sudo dnf install cppcheck
     </details>
 
+If gcc is used instead of clang in clion configuration these libraries need to be installed. 
+
 7. libasan
     <details>
     <summary>Install command</summary>
             sudo dnf install libasan
     </details>
 
-7. libubsan
+8. libubsan
     <details>
     <summary>Install command</summary>
             sudo dnf install libubsan
     </details>
-
