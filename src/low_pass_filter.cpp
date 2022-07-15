@@ -50,7 +50,7 @@ public:
 
   double operator()(const int i) const
   {
-    return std::inner_product(
+    return std::transform_reduce(
       std::begin(m_weights), std::end(m_weights), m_data_block + i - static_cast<long>(m_weights.size()), 0.);
   }
 
