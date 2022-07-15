@@ -60,3 +60,15 @@ If gcc is used instead of clang in clion configuration these libraries need to b
    
             $ sudo dnf install libubsan
     </details>
+   
+Have to change path to work with conan. add conan to path
+
+Have to run in terminal so path is loaded
+
+Have to use conan extension and match profiles
+
+Maybe change path in conan extension
+
+libubsan error disable sanitizers.
+
+Have to use certain gcc version to get transform_reduce
