@@ -14,14 +14,38 @@
 class LowPassFilter
 {
 public:
-  LowPassFilter(const std::size_t n, std::vector<double>::iterator data_block)
-    : m_weights(n), m_data_block(data_block)
+//  LowPassFilter(const std::size_t n, std::vector<double>::iterator data_block)
+//    : m_weights(n), m_data_block(data_block)
+//  {
+//    const unsigned seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
+//    std::default_random_engine generator(seed);
+//    std::uniform_real_distribution<double> distribution(0.0, 1.0);
+//
+//    std::generate(std::begin(m_weights), std::end(m_weights), [&]() { return distribution(generator); });
+//  }
+  LowPassFilter(const std::size_t n, std::vector<double>::iterator data_block) : m_weights(n), m_data_block(data_block)
   {
-    const unsigned seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
-    std::default_random_engine generator(seed);
-    std::uniform_real_distribution<double> distribution(0.0, 1.0);
-
-    std::generate(std::begin(m_weights), std::end(m_weights), [&]() { return distribution(generator); });
+    // setup reader that reads the filter coefficients
+    std::fstream reader("../../../../test_data/filterCoeff.dat", std::ios::in);
+    if (!reader) {
+      std::cerr << "Cannot open filter coefficient file!" << std::endl;
+    } else {
+      std::size_t i = 0;
+      while (i < n && reader >> m_weights[i]) {
+        if (i < cpp_template_lpf::MAX_PRINT_LINES) {
+          std::cout << "weight(" << i << ")=" << m_weights[i] << std::endl;
+        }
+        i++;
+      }
+      if (i < (n - 1)) {
+        std::cout << "not enough values in weights file";
+      }
+      double dummy = 0;
+      if (reader >> dummy) {
+        std::cout << "too many values in weights file";
+      }
+      reader.close();
+    }
   }
 
   double operator()(const int i) const

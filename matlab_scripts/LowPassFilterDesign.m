@@ -10,7 +10,7 @@ fvtool(NUM,'Fs',Fs)
 filterCoeffs=tf(NUM);
 numerator=filterCoeffs.Numerator;
 coeffs=cell2mat(numerator)'
-coeffFilePath = 'H:\PaMIr\Source code\Robinson_LPF_example\out-of-core-low-pass-filter\cmake-build-debug\filterCoeff.dat';
+coeffFilePath = '../test_data/filterCoeff.dat';
 coeffFileID = fopen(coeffFilePath,'w');
 fprintf(coeffFileID,'%12.4e',coeffs);
 fclose(coeffFileID);

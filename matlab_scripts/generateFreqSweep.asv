@@ -13,6 +13,12 @@ nPad = N/2;       % filter order
 t=linspace(0,tMax,fSamp*tMax);
 tPadded=linspace(0,tMax+nPad/fSamp,length(t)+nPad);
 S=10*sin((g+a/2.*t).*t);
+
+dataFilePath=sprintf('../data_files/chirpUpTo%5.0E_fSamp=%5.0E.bin',fMax,fSamp);
+dataFileID = fopen(dataFilePath,'w');
+fwrite(dataFileID,S,'do);
+fclose(dataFileID);
+
 sPadded = zeros(length(S)+nPad,1);
 sPadded(nPad+1:end)=S;
 options.DC='keep';
@@ -68,7 +74,7 @@ ylabel('Ampl. [arb.]');
 %
 spectralDiff=spectralPowerDensity-filteredspectralPowerDensity;
 subplot(3,2,6)
-plot(spectralDiff,filteredFrequency);
+plot(filteredFrequency,spectralDiff);
 fourierAxis3=gca;
 title('FFT-Raw - FFT-filtered');
 xlabel('frequency [Hz]');
@@ -76,5 +82,7 @@ ylabel('difference of Spectral Power Densities [arb/Hz]');
 %
 linkaxes([signalAxis2, signalAxis1],'xy');
 linkaxes([fourierAxis2, fourierAxis1],'xy');
+linkaxes([signalAxis1, signalAxis3],'x');
+linkaxes([fourierAxis1, fourierAxis3],'x');
 
 

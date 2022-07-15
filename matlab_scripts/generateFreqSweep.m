@@ -13,6 +13,12 @@ nPad = N/2;       % filter order
 t=linspace(0,tMax,fSamp*tMax);
 tPadded=linspace(0,tMax+nPad/fSamp,length(t)+nPad);
 S=10*sin((g+a/2.*t).*t);
+
+dataFilePath=sprintf('../test_data/chirp_fMax=%5.0E_fSamp=%5.0E.bin',fMax,fSamp);
+dataFileID = fopen(dataFilePath,'w');
+fwrite(dataFileID,S,'double');
+fclose(dataFileID);
+
 sPadded = zeros(length(S)+nPad,1);
 sPadded(nPad+1:end)=S;
 options.DC='keep';
@@ -41,6 +47,12 @@ Rp = (10^(Ap/20) - 1)/(10^(Ap/20) + 1);  % passband ripple in linear values
 Rst = 10^(-Ast/20);  % stop band attenuation in linear values
 NUM = firceqrip(N,Fp/(Fs/2),[Rp Rst],'passedge');
 sFiltered = filter(NUM,1,S);
+
+filteredDataFilePath=sprintf('../test_data/reference_filtered_chirp_fMax=%5.0E_fSamp=%5.0E.bin',fMax,fSamp);
+filteredDataFileID = fopen(filteredDataFilePath,'w');
+fwrite(filteredDataFileID,sFiltered,'double');
+fclose(dataFileID);
+
 subplot(3,2,3);
 plot(t,sFiltered);
 signalAxis2=gca;
