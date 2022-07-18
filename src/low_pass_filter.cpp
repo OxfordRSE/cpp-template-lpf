@@ -26,7 +26,7 @@ public:
     LowPassFilter(const std::size_t n, std::vector<double>::iterator data_block) : m_weights(n),
                                                                                    m_data_block(data_block) {
         // setup reader that reads the filter coefficients
-        std::fstream reader("../../../../test_data/filterCoeff.dat", std::ios::in);
+        std::fstream reader("../test_data/filterCoeff.dat", std::ios::in);
         if (!reader) {
             std::cerr << "Cannot open filter coefficient file!" << std::endl;
         } else {

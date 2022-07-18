@@ -52,8 +52,8 @@ int main(int argc, const char **argv)
 
     cpp_template_lpf::LpfConfig config;
 
-    const std::string data_filename = "../../../../test_data/chirp_fMax=6E+07_fSamp=1E+08.bin";
-    const std::string processed_data_filename = "../../../../test_data/filtered_chirp_fMax=6E+07_fSamp=1E+08.bin";
+    const std::string data_filename = "../test_data/chirp_fMax=6E+07_fSamp=1E+08.bin";
+    const std::string processed_data_filename = "../test_data/filtered_chirp_fMax=6E+07_fSamp=1E+08.bin";
 
     // write out some random data for testing
     // write_test_file(config.input_data_size, data_filename);

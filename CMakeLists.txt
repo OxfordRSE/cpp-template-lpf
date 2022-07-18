@@ -171,4 +171,5 @@ set(CPACK_PACKAGE_FILE_NAME
 )
 
 include(CPack)
-
+file(COPY test_data DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY matlab_scripts DESTINATION ${CMAKE_BINARY_DIR})
