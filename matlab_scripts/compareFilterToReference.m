@@ -1,6 +1,10 @@
+%% Compares the filtered output of the MATLAB filter function to that of the C++ implementation 
 close all;
-fRef = '../test_data/reference_filtered_chirp_fMax=6E+07_fSamp=1E+08.bin';
-fFilt= '../test_data/filtered_chirp_fMax=6E+07_fSamp=1E+08.bin';
+fRef = '../test_data/reference_filtered_chirp_fMax=6E+07_fSamp=1.25E+08.bin'; % MATLAB data
+fFilt= '../test_data/filtered_chirp_fMax=6E+07_fSamp=1.25E+08.bin'; % C++ data
+fSamp = 1.25e0;
+fMax = 6e07;
+
 fIdRef = fopen(fRef,'r');
 fIdFilt = fopen(fFilt,'r');
 nBytes=8; % number of bytes per entry
@@ -9,25 +13,34 @@ sFilt=dir(fRef);
 sizeRef = floor(sRef.bytes/nBytes);
 sizeFilt= floor(sFilt.bytes/nBytes);
 if sizeRef~=sizeFilt
-    fprintf('size of reference data = %10.0',sizeRef);
-    fprintf('size of filtered data = %10.0',sizeFilt);
     fclose(fIdRef);
     fclose(fIdFilt);
+    error('data files are of different sizes')
+    
 else
     size = sizeRef
     sRef = fread(fIdRef,[1,size],'double');
     sFilt = fread(fIdFilt,[1,size],'double');
-    subplot(1,2,1);
-    plot(sRef);
+    
+    t = linspace(0, size/fSamp, size)
+    figure;
+    subplot(1,3,1);
+    plot(t, sRef);
     hold on;
-    plot(sFilt);
-    legend('matlab filtered', 'C++ filtered');
-    xlabel('data point number');
-    ylabel('low pass filtered signal');
-    title('filtered outpus from matlab and C++');
-    subplot(1,2,2);
+    plot(t, sFilt);
+    legend('MATLAB filtered', 'C++ filtered');
+    xlabel('time [s]');
+    ylabel('signal [Arb]');
+    title('filtered output from matlab and C++');
+    subplot(1,3,2);
     plot(sRef-sFilt);
-    xlabel('data point number');
-    ylabel('matlab minus C++ outputs');
-    title('difference of filters');
+    xlabel('time [s]');
+    ylabel('MATLAB minus C++ signal');
+    title('difference of C++ and matlab outputs');
+    subplot(1,3,3);
+    plot(sRef,sRef-sFilt);
+    xlabel('Reference signal');
+    ylabel('matlab minus c++ outputs');
+    title('difference of c+= and matlab outputs against signal amplitude');
+  
 end
