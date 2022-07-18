@@ -23,35 +23,35 @@ public:
 //
 //    std::generate(std::begin(m_weights), std::end(m_weights), [&]() { return distribution(generator); });
 //  }
-  LowPassFilter(const std::size_t n, std::vector<double>::iterator data_block) : m_weights(n), m_data_block(data_block)
-  {
-    // setup reader that reads the filter coefficients
-    std::fstream reader("../../../../test_data/filterCoeff.dat", std::ios::in);
-    if (!reader) {
-      std::cerr << "Cannot open filter coefficient file!" << std::endl;
-    } else {
-      std::size_t i = 0;
-      while (i < n && reader >> m_weights[i]) {
-        if (i < cpp_template_lpf::MAX_PRINT_LINES) {
-          std::cout << "weight(" << i << ")=" << m_weights[i] << std::endl;
+    LowPassFilter(const std::size_t n, std::vector<double>::iterator data_block) : m_weights(n),
+                                                                                   m_data_block(data_block) {
+        // setup reader that reads the filter coefficients
+        std::fstream reader("../../../../test_data/filterCoeff.dat", std::ios::in);
+        if (!reader) {
+            std::cerr << "Cannot open filter coefficient file!" << std::endl;
+        } else {
+            std::size_t i = 0;
+            while (i < n && reader >> m_weights[i]) {
+                if (i < cpp_template_lpf::MAX_PRINT_LINES) {
+                    std::cout << "weight(" << i << ")=" << m_weights[i] << std::endl;
+                }
+                i++;
+            }
+            if (i < (n - 1)) {
+                std::cout << "not enough values in weights file";
+            }
+            double dummy = 0;
+            if (reader >> dummy) {
+                std::cout << "too many values in weights file";
+            }
+            reader.close();
         }
-        i++;
-      }
-      if (i < (n - 1)) {
-        std::cout << "not enough values in weights file";
-      }
-      double dummy = 0;
-      if (reader >> dummy) {
-        std::cout << "too many values in weights file";
-      }
-      reader.close();
     }
-  }
 
   double operator()(const int i) const
   {
     return std::transform_reduce(
-      std::begin(m_weights), std::end(m_weights), m_data_block + i - static_cast<long>(m_weights.size()), 0.);
+      std::begin(m_weights), std::end(m_weights), m_data_block + i - static_cast<long>(m_weights.size())+1, 0.);
   }
 
 private:

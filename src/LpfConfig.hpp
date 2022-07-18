@@ -9,8 +9,9 @@ namespace cpp_template_lpf {
 struct LpfConfig
 {
   const static std::size_t DEFAULT_INPUT_DATA_SIZE = 1250000U;
+  //const static std::size_t DEFAULT_BLOCK_DATA_SIZE = 10000U;
   const static std::size_t DEFAULT_BLOCK_DATA_SIZE = 10000U;
-  const static std::size_t DEFAULT_HALO_SIZE = 1001U;
+  const static std::size_t DEFAULT_HALO_SIZE = 1000U;
   const static std::size_t DEFAULT_LPF_SIZE = 1001U;
   std::size_t input_data_size = DEFAULT_INPUT_DATA_SIZE;
   std::size_t block_data_size = DEFAULT_BLOCK_DATA_SIZE;
