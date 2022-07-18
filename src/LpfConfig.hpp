@@ -8,8 +8,10 @@ namespace cpp_template_lpf {
 
 struct LpfConfig
 {
+    //TODO determine filter size from number of elements in filter coefficient file
+    //TODO determine input data size from input data file
+    //TODO relate halo size to filter size programatically
   const static std::size_t DEFAULT_INPUT_DATA_SIZE = 1250000U;
-  //const static std::size_t DEFAULT_BLOCK_DATA_SIZE = 10000U;
   const static std::size_t DEFAULT_BLOCK_DATA_SIZE = 10000U;
   const static std::size_t DEFAULT_HALO_SIZE = 1000U;
   const static std::size_t DEFAULT_LPF_SIZE = 1001U;

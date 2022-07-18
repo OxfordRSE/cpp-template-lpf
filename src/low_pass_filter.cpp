@@ -25,27 +25,17 @@ public:
 //  }
     LowPassFilter(const std::size_t n, std::vector<double>::iterator data_block) : m_weights(n),
                                                                                    m_data_block(data_block) {
-        // setup reader that reads the filter coefficients
-        std::fstream reader("../test_data/filterCoeff.dat", std::ios::in);
-        if (!reader) {
-            std::cerr << "Cannot open filter coefficient file!" << std::endl;
-        } else {
-            std::size_t i = 0;
-            while (i < n && reader >> m_weights[i]) {
-                if (i < cpp_template_lpf::MAX_PRINT_LINES) {
-                    std::cout << "weight(" << i << ")=" << m_weights[i] << std::endl;
-                }
-                i++;
-            }
-            if (i < (n - 1)) {
-                std::cout << "not enough values in weights file";
-            }
-            double dummy = 0;
-            if (reader >> dummy) {
-                std::cout << "too many values in weights file";
-            }
-            reader.close();
-        }
+        //Use binary file for weights
+        const std::string filename = "../test_data/filterCoeff.bin";
+        std::ifstream reader(filename, std::ios::in | std::ios::binary);
+        if (!reader) { throw std::system_error(errno, std::system_category(), "Failed to open file for read hello?"); }
+
+        const auto weights_iter = std::begin(m_weights);
+
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        auto *const read_buffer = reinterpret_cast<char *>(&(*weights_iter));// cppcheck-suppress invalidPointerCast
+        reader.read(read_buffer, static_cast<std::streamsize>(n * sizeof(double)));
+        reader.close();
     }
 
   double operator()(const int i) const
