@@ -62,7 +62,7 @@ private:
 
 void cpp_template_lpf::low_pass_filter(std::ifstream &reader, std::ofstream &writer, const LpfConfig &config)
 {
-  const auto n_blocks = static_cast<std::size_t>(std::floor(config.input_data_size / config.block_data_size));
+  const auto n_blocks = static_cast<std::size_t>(std::ceil(config.input_data_size / config.block_data_size));
   // create some vectors for processing the data
   std::vector<double> halo_and_block(config.block_data_size + config.halo_size, 0.);
   std::vector<double> processed_block(config.block_data_size);
