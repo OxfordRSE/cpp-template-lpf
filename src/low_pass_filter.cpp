@@ -10,25 +10,26 @@
 #include <utility>
 
 #include "low_pass_filter.hpp"
-
+/// Low pass filter class
+/**
+ * This class reads the filter coefficients from file and applies them to a given index on the input.
+ */
 class LowPassFilter
 {
 public:
-//  LowPassFilter(const std::size_t n, std::vector<double>::iterator data_block)
-//    : m_weights(n), m_data_block(data_block)
-//  {
-//    const unsigned seed = static_cast<unsigned>(std::chrono::system_clock::now().time_since_epoch().count());
-//    std::default_random_engine generator(seed);
-//    std::uniform_real_distribution<double> distribution(0.0, 1.0);
-//
-//    std::generate(std::begin(m_weights), std::end(m_weights), [&]() { return distribution(generator); });
-//  }
+    /// The class constructor
+    /**
+     * Reads the filter coefficients from file and assigns an iterator for the input data.
+     * @param n integer argument that determines the number of filter coefficients
+     * @param data_block a vector<double> iterator to the input data
+     */
     LowPassFilter(const std::size_t n, std::vector<double>::iterator data_block) : m_weights(n),
                                                                                    m_data_block(data_block) {
-        //Use binary file for weights
+        //Read binary file for filter coefficients
         const std::string filename = "../test_data/filterCoeff.bin";
         std::ifstream reader(filename, std::ios::in | std::ios::binary);
-        if (!reader) { throw std::system_error(errno, std::system_category(), "Failed to open file for read hello?"); }
+        if (!reader) { throw std::system_error(errno, std::system_category(),
+                                               "Failed to open filter coefficient file for read"); }
 
         const auto weights_iter = std::begin(m_weights);
 
@@ -38,6 +39,13 @@ public:
         reader.close();
     }
 
+    /// Function call operator to apply filter coefficients
+    /**
+     * The operator takes the inner product between the filter coefficient vector and the input data
+     * at the index defined by i.
+     * @param i the index of the input data at which the last filter coefficient will be applied
+     * @return the filtered data
+     */
   double operator()(const int i) const
   {
     return std::transform_reduce(
@@ -45,11 +53,19 @@ public:
   }
 
 private:
-  std::vector<double> m_weights;
-  std::vector<double>::iterator m_data_block;
+  std::vector<double> m_weights; ///< vector for the filter coefficients
+  std::vector<double>::iterator m_data_block; ///< iterator to the input data
 };
 
-
+/// Function to read the input signal from file and output to file the filtered signal
+/**
+ * Takes the reader for the input data and the configuration parameters for the input data and low pass filter. The low
+ * pass filter is applied to the input data and the filtered data is outputted to file.
+ * @param reader ifstream of the input data
+ * @param writer ofstream for the destination of the filtered signal
+ * @param config struct giving the configuration parameter
+ * @see Lpfconthefig
+ */
 void cpp_template_lpf::low_pass_filter(std::ifstream &reader, std::ofstream &writer, const LpfConfig &config)
 {
   const auto n_blocks = static_cast<std::size_t>(std::ceil(config.input_data_size / config.block_data_size));
