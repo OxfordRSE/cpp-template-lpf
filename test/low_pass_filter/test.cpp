@@ -1,17 +1,20 @@
-#include <iostream>
 #include <vector>
+#include <string>
+
 #include "filterCoefficientReader.hpp"
 #include "BlockReader.hpp"
 #include "BlockWriter.hpp"
 #include "LowPassFilter.hpp"
 
+#include "testConfig.hpp"
+
 constexpr std::size_t blockSize(10000);
 constexpr std::size_t haloSize(1000);
 
 int main() {
-  std::vector<double> coef = filterCoefficientReader("../test_data/filterCoeff.bin");
-  BlockReader blcRdr("../test_data/chirp_fMax=6.25E+07_fSamp=1.25E+08.bin", blockSize);
-  BlockWriter blcWtr("../test_data/filtered_chirp_fMax=6.25E+07_fSamp=1.25E+08.bin");
+  std::vector<double> coef = filterCoefficientReader(TEST_DATA_DIR "/filterCoeff.bin");
+  BlockReader blcRdr(TEST_DATA_DIR "/chirp_fMax=6.25E+07_fSamp=1.25E+08.bin", blockSize);
+  BlockWriter blcWtr(TEST_DATA_DIR "/filtered_chirp_fMax=6.25E+07_fSamp=1.25E+08.bin");
   LowPassFilter lpf(coef);
 
   std::vector<double> blockAndHalo(blockSize+haloSize);
