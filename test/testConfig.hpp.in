@@ -1,0 +1,7 @@
+#ifndef CPP_TEMPLATE_LPF_TESTCONFIG_HPP
+#define CPP_TEMPLATE_LPF_TESTCONFIG_HPP
+
+// the directory of the test data
+#define TEST_DATA_DIR "@TEST_DATA_DIR@"
+
+#endif// CPP_TEMPLATE_LPF_TESTCONFIG_HPP
