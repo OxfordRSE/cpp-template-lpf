@@ -1,6 +1,4 @@
 #include <algorithm>
-#include <chrono>
-#include <fstream>
 #include <iostream>
 #include <iterator>
 #include <numeric>
@@ -8,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <execution>
 
 #include "low_pass_filter.hpp"
 /// Low pass filter class
@@ -48,7 +47,7 @@ public:
      */
   double operator()(const int i) const
   {
-    return std::transform_reduce(
+    return std::transform_reduce(std::execution::par_unseq,
       std::begin(m_weights), std::end(m_weights), m_data_block + i - static_cast<long>(m_weights.size())+1, 0.);
   }
 

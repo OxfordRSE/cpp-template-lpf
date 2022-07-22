@@ -6,6 +6,7 @@
 
 #include <CLI/CLI.hpp>
 #include <spdlog/spdlog.h>
+#include <bits/stdc++.h>
 
 // This file will be generated automatically when you run the CMake configuration step.
 // It creates a namespace called `cpp_template_lpf`.
@@ -52,8 +53,8 @@ int main(int argc, const char **argv)
 
     cpp_template_lpf::LpfConfig config;
 
-    const std::string data_filename = "../test_data/chirp_fMax=6E+07_fSamp=1E+08.bin";
-    const std::string processed_data_filename = "../test_data/filtered_chirp_fMax=6E+07_fSamp=1E+08.bin";
+    const std::string data_filename = "../test_data/chirp_fMax=6.25E+07_fSamp=1.25E+08.bin";
+    const std::string processed_data_filename = "../test_data/filtered_chirp_fMax=6.25E+07_fSamp=1.25E+08.bin";
 
     // write out some random data for testing
     // write_test_file(config.input_data_size, data_filename);
@@ -70,7 +71,12 @@ int main(int argc, const char **argv)
     }
 
     spdlog::info("Started data analysis");
+    std::clock_t start(clock());
     cpp_template_lpf::low_pass_filter(reader, writer, config);
+    std::clock_t end(clock());
+    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+    std::cout << "Time taken by program is : " << std::fixed << time_taken;
+    std::cout << " sec " << std::endl;
     spdlog::info("Finished data analysis");
 
     reader.close();
