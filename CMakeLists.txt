@@ -158,10 +158,10 @@ endif()
 
 # Add other targets that you want installed here, be default we just package the one executable
 # we know we want to ship
-package_project(TARGETS intro project_options project_warnings
-  # FIXME: this does not work! CK
-  # PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
-)
+#package_project(TARGETS intro project_options project_warnings
+#  # FIXME: this does not work! CK
+#  # PRIVATE_DEPENDENCIES_CONFIGURED project_options project_warnings
+#)
 
 # Experience shows that explicit package naming can help make it easier to sort
 # out potential ABI related issues before they start, while helping you
@@ -173,3 +173,5 @@ set(CPACK_PACKAGE_FILE_NAME
 include(CPack)
 file(COPY test_data DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY matlab_scripts DESTINATION ${CMAKE_BINARY_DIR})
+
+message(STATUS hello)
