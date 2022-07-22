@@ -1,7 +1,7 @@
 %% Compares the filtered output of the MATLAB filter function to that of the C++ implementation 
 close all;
-fRef = '../test_data/reference_filtered_chirp_fMax=6E+07_fSamp=1.25E+08.bin'; % MATLAB data
-fFilt= '../test_data/filtered_chirp_fMax=6E+07_fSamp=1.25E+08.bin'; % C++ data
+fRef = '../test_data/reference_filtered_chirp_fMax=6.25E+07_fSamp=1.25E+08.bin'; % MATLAB data
+fFilt= '../test_data/filtered_chirp_fMax=6.25E+07_fSamp=1.25E+08.bin'; % C++ data
 fSamp = 1.25e0;
 fMax = 6e07;
 
@@ -18,11 +18,11 @@ if sizeRef~=sizeFilt
     error('data files are of different sizes')
     
 else
-    size = sizeRef
+    size = sizeRef;
     sRef = fread(fIdRef,[1,size],'double');
     sFilt = fread(fIdFilt,[1,size],'double');
     
-    t = linspace(0, size/fSamp, size)
+    t = linspace(0, size/fSamp, size);
     figure;
     subplot(1,3,1);
     plot(t, sRef);
@@ -31,16 +31,16 @@ else
     legend('MATLAB filtered', 'C++ filtered');
     xlabel('time [s]');
     ylabel('signal [Arb]');
-    title('filtered output from matlab and C++');
+    title('filtered output from MATLAB and C++');
     subplot(1,3,2);
     plot(sRef-sFilt);
     xlabel('time [s]');
     ylabel('MATLAB minus C++ signal');
-    title('difference of C++ and matlab outputs');
+    title('difference of C++ and MATLAB outputs');
     subplot(1,3,3);
     plot(sRef,sRef-sFilt);
     xlabel('Reference signal');
-    ylabel('matlab minus c++ outputs');
-    title('difference of c+= and matlab outputs against signal amplitude');
+    ylabel('MATLAB minus C++ outputs');
+    title(' C++ - MATLAB outputs against signal amplitude');
   
 end
