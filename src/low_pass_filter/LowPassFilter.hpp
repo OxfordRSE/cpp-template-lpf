@@ -5,7 +5,8 @@ class LowPassFilter {
 public:
   double singleOperation(std::vector<double>::iterator blockIter);
   explicit LowPassFilter(std::vector<double> const &coefficients);
-  void operator()(std::vector<double>::iterator inputBegin, std::vector<double>::iterator inputEnd,
+  std::vector<double>::iterator operator()(std::vector<double>::iterator inputBegin,
+    std::vector<double>::iterator inputEnd,
     std::vector<double>::iterator outputBegin);
 
 private:

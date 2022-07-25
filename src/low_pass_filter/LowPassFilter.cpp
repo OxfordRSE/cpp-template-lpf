@@ -18,14 +18,15 @@ LowPassFilter::LowPassFilter(std::vector<double> const &coefficients)
   : m_coef(coefficients), haloSize(coefficients.size()-1) {}
 
 //TODO maybe a different signature
-void LowPassFilter::operator()(std::vector<double>::iterator inputBegin, std::vector<double>::iterator inputEnd,
+std::vector<double>::iterator LowPassFilter::operator()(std::vector<double>::iterator inputBegin,
+  std::vector<double>::iterator inputEnd,
   std::vector<double>::iterator outputBegin) {
 
   auto blockSize(static_cast<std::size_t>(std::distance(inputBegin, inputEnd)));
   using vecIter = std::vector<double>::iterator;
   std::vector<vecIter> blockIters(blockSize);
   std::iota(std::begin(blockIters), std::end(blockIters), inputBegin);
-  std::transform(std::execution::par_unseq,
+  return std::transform(std::execution::par_unseq,
     std::begin(blockIters), std::end(blockIters), outputBegin,
     [this](vecIter blockIterator) { return this->singleOperation(blockIterator); });
 }
