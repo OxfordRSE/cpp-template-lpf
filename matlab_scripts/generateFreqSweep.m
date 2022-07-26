@@ -13,8 +13,20 @@ nPad = N/2;       % filter order
 t=linspace(0,tMax,fSamp*tMax);
 S=sin((g+a/2.*t).*t); % create chirp signal
 
+% Write out configuration to json
+config.fs = fSamp;
+config.fMin = fMin;
+config.fMax = fMax;
+config.tMin = 0;
+config.tMax = tMax;
+config.filterOrder = N;
+configJson = jsonencode(config);
+fid = fopen('../test_data/chirp_signal.txt','w');
+fprintf(fid, configJson);
+fclose(fid);
+
 % write chirp signal to binary file
-dataFilePath=sprintf('../test_data/chirp_fMax=%5.2E_fSamp=%5.2E.bin',fMax,fSamp);
+dataFilePath=sprintf('../test_data/chirp_signal.bin');
 dataFileID = fopen(dataFilePath,'w');
 fwrite(dataFileID,S,'double');
 fclose(dataFileID);
@@ -48,8 +60,10 @@ ylabel('Spectral Power Density [arb/Hz]');
 % generate the filter coefficients
 coeff = lowPassFilterDesign();
 
+sFiltered = filter(coeff, 1, S);
+
 % write the filtered signal in binary
-filteredDataFilePath=sprintf('../test_data/reference_filtered_chirp_fMax=%5.2E_fSamp=%5.2E.bin',fMax,fSamp);
+filteredDataFilePath=sprintf('../test_data/reference_filtered_chirp_signal.bin');
 filteredDataFileID = fopen(filteredDataFilePath,'w');
 fwrite(filteredDataFileID,sFiltered,'double');
 fclose(dataFileID);

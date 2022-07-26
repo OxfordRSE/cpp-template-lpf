@@ -1,9 +1,16 @@
 %% Compares the filtered output of the MATLAB filter function to that of the C++ implementation 
 close all;
-fRef = '../test_data/reference_filtered_chirp_fMax=6.25E+07_fSamp=1.25E+08.bin'; % MATLAB data
-fFilt= '../test_data/filtered_chirp_fMax=6.25E+07_fSamp=1.25E+08.bin'; % C++ data
-fSamp = 1.25e0;
-fMax = 6e07;
+fRef = '../test_data/reference_filtered_chirp_signal.bin'; % MATLAB data
+fFilt= '../test_data/filtered_chirp_signal.bin'; % C++ data
+% Read configuration parameters
+metaFid = fopen('../test_data/chirp_signal.txt','r');
+metaJson = fscanf(metaFid,'%c');
+fclose(metaFid);
+
+config = jsondecode(metaJson);
+fSamp = config.fs;
+fMax = config.fMax;
+tMax = config.tMax;
 
 fIdRef = fopen(fRef,'r');
 fIdFilt = fopen(fFilt,'r');
@@ -22,7 +29,7 @@ else
     sRef = fread(fIdRef,[1,size],'double');
     sFilt = fread(fIdFilt,[1,size],'double');
     
-    t = linspace(0, size/fSamp, size);
+    t=linspace(0,tMax,fSamp*tMax);
     figure;
     subplot(1,3,1);
     plot(t, sRef);
