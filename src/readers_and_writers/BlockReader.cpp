@@ -22,9 +22,9 @@ BlockReader::BlockReader(const std::string &filename, std::size_t sizeOfBlock)
 
 std::size_t BlockReader::numOfBlocks() const { return nBlocks; }
 
-void BlockReader::readNextBlock(std::vector<double>::iterator start)
+void BlockReader::readNextBlock(std::vector<double>::iterator d_first)
 {
   //  NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-  auto *const read_buffer = reinterpret_cast<char *>(&(*start));// cppcheck-suppress invalidPointerCast
+  auto *const read_buffer = reinterpret_cast<char *>(&(*d_first));// cppcheck-suppress invalidPointerCast
   reader.read(read_buffer, static_cast<std::streamsize>(blockSize * sizeof(double)));
 }

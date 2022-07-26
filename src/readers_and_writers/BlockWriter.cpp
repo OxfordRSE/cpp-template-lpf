@@ -16,14 +16,11 @@ BlockWriter::~BlockWriter()
   writer.close();
 }
 
-int BlockWriter::writeBlock(std::vector<double>::iterator blockBegin, std::vector<double>::iterator blockEnd)
+void BlockWriter::writeBlock(std::vector<double>::iterator first, std::vector<double>::iterator last)
 {
-  // TODO maybe clean up the casting a bit
-  auto blockSize(static_cast<std::size_t>(std::distance(blockBegin, blockEnd)));
+  auto blockSize(static_cast<std::size_t>(std::distance(first, last)));
   // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-  auto *const write_buffer = reinterpret_cast<char *>(&(*blockBegin));// cppcheck-suppress invalidPointerCast
+  auto *const write_buffer = reinterpret_cast<char *>(&(*first));// cppcheck-suppress invalidPointerCast
   writer.write(write_buffer, static_cast<std::streamsize>(blockSize * sizeof(double)));
-  // TODO add error return?
   writer.flush();
-  return 0;
 }
