@@ -27,6 +27,10 @@ FetchContent_Declare(_project_options URL https://github.com/aminya/project_opti
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
+# Add json library. Could also use conan. consider it
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
 # uncomment to enable vcpkg:
 # # Setup vcpkg - should be called before defining project()
 # run_vcpkg()
@@ -119,6 +123,16 @@ dynamic_project_options(
   --suppress=passedByValue
   --suppress=syntaxError
   --inconclusive
+  # suppress warnings from json library
+  --suppress=functionStatic
+        --suppress=functionConst
+        --suppress=noExplicitConstructor
+        --suppress=redundantInitialization
+        --suppress=knownConditionTrueFalse
+        --suppress=unreachableCode
+        --suppress=constParameter
+        --suppress=useStlAlgorithm
+        --suppress=unreadVariable
 )
 
 target_compile_features(project_options INTERFACE cxx_std_${CMAKE_CXX_STANDARD})
