@@ -4,15 +4,18 @@
 class LowPassFilter {
 public:
   double singleOperation(std::vector<double>::iterator blockIter);
+
+  LowPassFilter() : haloSize(0) {}
+
   explicit LowPassFilter(std::vector<double> const &coefficients);
+
   std::vector<double>::iterator operator()(const std::vector<double>::iterator inputBegin,
     const std::vector<double>::iterator inputEnd,
     std::vector<double>::iterator outputBegin);
 
-//private:
-  const std::vector<double> m_coef;
-  const std::size_t haloSize;
-  std::vector<double> processedData;
+private:
+  std::vector<double> coef;
+  std::size_t haloSize;
 };
 
 #endif// CPP_TEMPLATE_LPF_LOWPASSFILTER_HPP
