@@ -5,11 +5,11 @@ class LowPassFilter {
 public:
   double singleOperation(std::vector<double>::iterator blockIter);
   explicit LowPassFilter(std::vector<double> const &coefficients);
-  std::vector<double>::iterator operator()(std::vector<double>::iterator inputBegin,
-    std::vector<double>::iterator inputEnd,
+  std::vector<double>::iterator operator()(const std::vector<double>::iterator inputBegin,
+    const std::vector<double>::iterator inputEnd,
     std::vector<double>::iterator outputBegin);
 
-private:
+//private:
   const std::vector<double> m_coef;
   const std::size_t haloSize;
   std::vector<double> processedData;

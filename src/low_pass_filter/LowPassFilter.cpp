@@ -18,8 +18,8 @@ LowPassFilter::LowPassFilter(std::vector<double> const &coefficients)
   : m_coef(coefficients), haloSize(coefficients.size()-1) {}
 
 //TODO maybe a different signature
-std::vector<double>::iterator LowPassFilter::operator()(std::vector<double>::iterator inputBegin,
-  std::vector<double>::iterator inputEnd,
+std::vector<double>::iterator LowPassFilter::operator()( const std::vector<double>::iterator inputBegin,
+  const std::vector<double>::iterator inputEnd,
   std::vector<double>::iterator outputBegin) {
 
   auto blockSize(static_cast<std::size_t>(std::distance(inputBegin, inputEnd)));
