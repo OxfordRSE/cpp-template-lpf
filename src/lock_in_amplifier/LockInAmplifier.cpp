@@ -7,18 +7,22 @@
 
 #include "LockInAmplifier.hpp"
 
-LockInAmplifier::LockInAmplifier(std::vector<double> const &coefficients, std::size_t const sizeOfBlock)
+LockInAmplifier::LockInAmplifier(std::vector<double> const &coefficients,
+  Band frequencyBand,
+  std::size_t const sizeOfBlock)
   : lockInSignal(sizeOfBlock), blockWithHalo(sizeOfBlock + coefficients.size() - 1, 0.0),
     endOfHaloIt(std::begin(blockWithHalo) + static_cast<long>(coefficients.size()) - 1),
     copyBeginIt(std::end(blockWithHalo) - (static_cast<long>(coefficients.size()) - 1)), blockSize(sizeOfBlock),
     lpf(coefficients)
-{}
+{
+  set_signal(frequencyBand);
+}
 
 void LockInAmplifier::set_signal(Band band)
 {
   std::vector<int> indices(blockSize);
   std::iota(std::begin(indices), std::end(indices), 0);
-  // frequency is given in terms of indicies so will be given in terms of the sampling frequency
+  // frequency is given in terms of indices so will be given in terms of the sampling frequency
   switch (band.parity) {
   case even:
     std::transform(
@@ -33,7 +37,7 @@ void LockInAmplifier::set_signal(Band band)
   }
 }
 
-std::vector<double>::iterator LockInAmplifier::operator()(const std::vector<double>::iterator first1,
+void LockInAmplifier::operator()(const std::vector<double>::iterator first1,
   const std::vector<double>::iterator last1,
   std::vector<double>::iterator d_first)
 {
@@ -41,5 +45,5 @@ std::vector<double>::iterator LockInAmplifier::operator()(const std::vector<doub
 
   std::transform(std::execution::par_unseq, first1, last1, std::begin(lockInSignal), endOfHaloIt, std::multiplies<>{});
 
-  return lpf(endOfHaloIt, std::end(blockWithHalo), d_first);
+  lpf(endOfHaloIt, std::end(blockWithHalo), d_first);
 }

@@ -1,4 +1,4 @@
-add_library(lock_in_amplifier LockInAmplifier.cpp LockInAmplifier.hpp)
+add_library(lock_in_amplifier LockInAmplifier.cpp LockInAmplifierCollection.cpp)
 
 target_link_libraries(lock_in_amplifier low_pass_filter)
 

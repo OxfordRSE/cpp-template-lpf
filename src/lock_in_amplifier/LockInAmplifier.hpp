@@ -17,19 +17,21 @@ struct Band
 class LockInAmplifier
 {
 public:
-  LockInAmplifier(std::vector<double> const &coefficients, std::size_t const sizeOfBlock);
+  LockInAmplifier() : blockSize(0) {}
 
-  void set_signal(Band band);
+  LockInAmplifier(std::vector<double> const &coefficients, Band frequencyBand, std::size_t const sizeOfBlock);
 
-  std::vector<double>::iterator operator()(const std::vector<double>::iterator first1,
+  void operator()(const std::vector<double>::iterator first1,
     const std::vector<double>::iterator last1, std::vector<double>::iterator d_first);
 
-protected:
+private:
   std::vector<double> lockInSignal;
   std::vector<double> blockWithHalo;
   std::vector<double>::iterator endOfHaloIt;
   std::vector<double>::iterator copyBeginIt;
   std::size_t blockSize;
   LowPassFilter lpf;
+
+  void set_signal(Band band);
 };
 #endif// CPP_TEMPLATE_LPF_LOCKINAMPLIFIER_HPP
