@@ -1,6 +1,7 @@
 %% Script to test the C++ lock in amplifier implementation
 
 datacursormode on
+clear
 % Read configuration parameters
 metaFid = fopen('../test_data/LIA_input.txt','r');
 metaJson = fscanf(metaFid,'%c');
@@ -9,7 +10,6 @@ fclose(metaFid);
 config = jsondecode(metaJson);
 
 % Read lock in amplified data
-
 fNameOutput = '../test_data/LIA_output.bin';
 fId = fopen(fNameOutput,'r');
 nBytes=8;
@@ -22,6 +22,7 @@ idealSignal = config.m*t;
 %normalize the signals
 idealSignal = idealSignal/max(idealSignal);
 signal = signal/max(signal);
+
 subplot(1,2,1);
 plot(t, signal);
 hold on
@@ -30,7 +31,7 @@ hold off
 legend('lock in amplifier signal', 'ideal signal');
 xlabel('time [s]');
 ylabel('signal [arb]');
-title('lock in amplifier and ideal signal');
+title(sprintf('lock in amplifier and ideal signal\n lock in frequency: {%.2g} Hz', config.f));
 
 subplot(1,2,2);
 plot(t, signal - idealSignal);

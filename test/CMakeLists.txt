@@ -13,6 +13,6 @@ include(Catch)
 add_subdirectory(block_reader_writer)
 add_subdirectory(low_pass_filter)
 add_subdirectory(lock_in_amplifier)
-
+add_subdirectory(lock_in_amplifier_collection)
 
 

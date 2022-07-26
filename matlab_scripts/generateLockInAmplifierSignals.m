@@ -1,8 +1,9 @@
 %% Producing signal for lock in amplifier
 
 close all
+clear
 config.fs = 125E6;
-config.f = 1E6;
+config.f = 2E6;
 config.tMin = 0;
 config.tMax = 1E-2;
 config.m = 1;
