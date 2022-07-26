@@ -1,0 +1,74 @@
+# Installation for RockyLinux8.6
+
+1. Clang 13.0.
+    <details>
+    <summary>Install command</summary>
+   
+            $ sudo dnf install clang
+   </details>
+
+2. Conan
+    <details>
+    <summary>Install command</summary>
+   
+            $ pip install conan
+	
+    In this case do not need to use sudo
+    </details>
+
+3. CMake
+    <details>
+    <summary>Install command</summary>
+   
+            $ sudo dnf install clang
+    </details>
+
+4. Doxygen
+    <details>
+    <summary>Install command</summary>
+   
+            $ sudo dnf install doxygen
+            $ sudo dnf install graphviz
+    </details>
+
+5. ccache
+    <details>
+    <summary>Install command</summary>
+   
+            $ sudo dnf install ccache
+    </details>
+
+6. Cppcheck
+    <details>
+    <summary>Install command</summary>
+   
+            $ sudo dnf install cppcheck
+    </details>
+
+If gcc is used instead of clang in clion configuration these libraries need to be installed. 
+
+7. libasan
+    <details>
+    <summary>Install command</summary>
+   
+            $ sudo dnf install libasan
+    </details>
+
+8. libubsan
+    <details>
+    <summary>Install command</summary>
+   
+            $ sudo dnf install libubsan
+    </details>
+   
+Have to change path to work with conan. add conan to path
+
+Have to run in terminal so path is loaded
+
+Have to use conan extension and match profiles
+
+Maybe change path in conan extension
+
+libubsan error disable sanitizers.
+
+Have to use certain gcc version to get transform_reduce
