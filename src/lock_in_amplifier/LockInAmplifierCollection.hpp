@@ -31,7 +31,8 @@ public:
    */
   void operator()(std::vector<double>::iterator first1,
     std::vector<double>::iterator last1,
-    std::vector<std::vector<double>>::iterator d_first);
+    std::vector<std::vector<double>>::iterator xOdd,
+    std::vector<std::vector<double>>::iterator yOdd);
 
 private:
   std::vector<LockInAmplifier> LIA_vector; ///< Vector of lock in amplifiers.

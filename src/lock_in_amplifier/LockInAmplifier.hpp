@@ -31,7 +31,7 @@ class LockInAmplifier
 {
 public:
   /// Default constructor
-  LockInAmplifier() : blockSize(0) {}
+  LockInAmplifier() : freqBand{0, even}, blockSize(0) {}
 
   /// Constructor
   /**
@@ -46,26 +46,45 @@ public:
   /// Function call operator for applying lock in amplifier.
   /**
    * Applies the lock in amplifier algorithm on an input vector and outputs the result to another vector.
-   * @param first1 vector of doubles iterator to start of input vector
-   * @param last1 vector of doubles iterator to one past the end of the input vector
-   * @param d_first vector of doubles iterator to beginning of output vector
+   * @param first Vector of doubles iterator to start of input vector
+   * @param last Vector of doubles iterator to one past the end of the input vector
+   * @param xOdd Vector of doubles iterator to beginning of xOdd output vector
+   * @param yOdd Vector of doubles iterator to beginning of yOdd output vector
    */
-  void operator()(const std::vector<double>::iterator first1,
-    const std::vector<double>::iterator last1, std::vector<double>::iterator d_first);
+  void operator()(const std::vector<double>::iterator first,
+    const std::vector<double>::iterator last, std::vector<double>::iterator xOdd,
+    std::vector<double>::iterator yOdd);
 
 private:
-  std::vector<double> lockInSignal; ///< Sinusoidal function for multiplication of the input signal.
+  Band freqBand; ///< Frequency band. @see Band
+  std::vector<double> sinLockInSignal; ///< Sinusoidal function for multiplication of the input signal.
+  std::vector<double> cosLockInSignal; ///< Sinusoidal function for multiplication of the input signal.
+
+  /// Vector of doubles iterator to beginning of phase shifted signal.
+  std::vector<double>::iterator sinSignalBegin;
+  std::vector<double>::iterator cosSignalBegin;
+
   /// Vector storing input block with halo.
   /**
    * Stores the input block as well as a halo in front. The halo consists of the last N-1 terms of the previous block
    * where N is the order of the filter. For the first block, the halo elements are 0.
    */
-  std::vector<double> blockWithHalo;
-  std::vector<double>::iterator endOfHaloIt; ///< Vector of doubles iterator to element after halo.
-  std::vector<double>::iterator copyBeginIt; ///< Vector of doubles iterator to beginning of last N-1 elements.
+  std::vector<double> blockWithHalo1;
+  std::vector<double>::iterator endOfHaloIt1; ///< Vector of doubles iterator to element after halo.
+  std::vector<double>::iterator copyBeginIt1; ///< Vector of doubles iterator to beginning of last N-1 elements.
+
+  /// Vector storing input block with halo.
+  /**
+   * Stores the input block as well as a halo in front. The halo consists of the last N-1 terms of the previous block
+   * where N is the order of the filter. For the first block, the halo elements are 0.
+   */
+  std::vector<double> blockWithHalo2;
+  std::vector<double>::iterator endOfHaloIt2; ///< Vector of doubles iterator to element after halo.
+  std::vector<double>::iterator copyBeginIt2; ///< Vector of doubles iterator to beginning of last N-1 elements.
+
   std::size_t blockSize; ///< Size of the input block.
   LowPassFilter lpf; ///< Low pass filter
 
-  void set_signal(Band band); ///< Helper function to set the lock in signal @see lockinsignal
+  void offset_phase(double phi); ///< Offsets phase of lock in signals by phi radians.
 };
 #endif// CPP_TEMPLATE_LPF_LOCKINAMPLIFIER_HPP

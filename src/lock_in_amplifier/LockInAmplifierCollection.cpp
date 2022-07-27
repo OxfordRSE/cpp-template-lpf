@@ -1,5 +1,4 @@
 #include <execution>
-#include <utility>
 #include <vector>
 
 #include "LockInAmplifier.hpp"
@@ -18,12 +17,12 @@ LockInAmplifierCollection::LockInAmplifierCollection(std::vector<double> const &
 
 void LockInAmplifierCollection::operator()(std::vector<double>::iterator first1,
   std::vector<double>::iterator last1,
-  std::vector<std::vector<double>>::iterator d_first)
+  std::vector<std::vector<double>>::iterator xOdd, std::vector<std::vector<double>>::iterator yOdd)
 {
   std::vector<int> indices(LIA_vector.size());
   std::iota(std::begin(indices), std::end(indices), 0);
   // TODO maybe without using indices
   return std::for_each(std::execution::par_unseq, std::begin(indices), std::end(indices), [&](std::size_t index) {
-    LIA_vector[index](first1, last1, std::begin(*(d_first + static_cast<long>(index))));
+    LIA_vector[index](first1, last1, std::begin(*(xOdd + static_cast<long>(index))), std::begin(*(yOdd + static_cast<long>(index))));
   });
 }

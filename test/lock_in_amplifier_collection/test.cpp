@@ -20,8 +20,10 @@ int main() {
     std::ifstream ifs(TEST_DATA_DIR "/LIA_collection_input.txt");
     json config(json::parse(ifs));
     BlockReader blcRdr(TEST_DATA_DIR "/LIA_collection_input.bin", blockSize);
-    BlockWriter blcWtr1(TEST_DATA_DIR "/LIA_collection_output1.bin");
-    BlockWriter blcWtr2(TEST_DATA_DIR "/LIA_collection_output2.bin");
+    BlockWriter blcWtr1_X(TEST_DATA_DIR "/LIA_collection_output1_X.bin");
+    BlockWriter blcWtr2_X(TEST_DATA_DIR "/LIA_collection_output2_X.bin");
+    BlockWriter blcWtr1_Y(TEST_DATA_DIR "/LIA_collection_output1_Y.bin");
+    BlockWriter blcWtr2_Y(TEST_DATA_DIR "/LIA_collection_output2_Y.bin");
 
     auto freq1 = config.at("f1").get<double>();
     auto freq2 = config.at("f2").get<double>();
@@ -32,24 +34,31 @@ int main() {
     LockInAmplifierCollection liaCollection(filterCoef, bands, blockSize);
 
     std::vector<double> inputBlock(blockSize);
-    std::vector<std::vector<double>> outputManyBlocks(bands.size());
-    for (auto &outputBlock : outputManyBlocks) {
+    std::vector<std::vector<double>> outputManyBlocks_X(bands.size());
+    std::vector<std::vector<double>> outputManyBlocks_Y(bands.size());
+    for (auto &outputBlock : outputManyBlocks_X) {
+      outputBlock = std::vector<double>(blockSize);
+    }
+    for (auto &outputBlock : outputManyBlocks_Y) {
       outputBlock = std::vector<double>(blockSize);
     }
 
     for (std::size_t i = 0; i < blcRdr.numOfBlocks(); i++) {
       blcRdr.readNextBlock(std::begin(inputBlock));
-      liaCollection(std::begin(inputBlock), std::end(inputBlock), std::begin(outputManyBlocks));
-      blcWtr1.writeBlock(std::begin(outputManyBlocks[0]), std::end(outputManyBlocks[0]));
-      blcWtr2.writeBlock(std::begin(outputManyBlocks[1]), std::end(outputManyBlocks[1]));
-
+      liaCollection(std::begin(inputBlock), std::end(inputBlock), std::begin(outputManyBlocks_X), std::begin(outputManyBlocks_Y));
+      blcWtr1_X.writeBlock(std::begin(outputManyBlocks_X[0]), std::end(outputManyBlocks_X[0]));
+      blcWtr2_X.writeBlock(std::begin(outputManyBlocks_X[1]), std::end(outputManyBlocks_X[1]));
+      blcWtr1_Y.writeBlock(std::begin(outputManyBlocks_Y[0]), std::end(outputManyBlocks_Y[0]));
+      blcWtr2_Y.writeBlock(std::begin(outputManyBlocks_Y[1]), std::end(outputManyBlocks_Y[1]));
     }
   }
   catch (std::system_error &e) {
     std::cerr << e.what() << std::endl;
+    return 1;
   }
   catch (...) {
     std::cerr << "unknown exception" << std::endl;
+    return 1;
   }
 
   return 0;
