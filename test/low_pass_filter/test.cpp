@@ -1,33 +1,27 @@
-#include <vector>
-#include <string>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_vector.hpp>
 
-#include "filterCoefficientReader.hpp"
-#include "BlockReader.hpp"
-#include "BlockWriter.hpp"
+using namespace Catch::literals;
+
+#include <vector>
+
 #include "LowPassFilter.hpp"
 
-#include "testConfig.hpp"
+//NOLINTBEGIN
+TEST_CASE("Testing low pass filter on random data and filter coefficients", "[low pass filter]") {
+  std::vector<double> filterCoefficients{2.1, -3.2, -7.1};
+  std::vector<double> block1{0, 0, 0.6, 5, -1.6, -5.4, 1.4};
+  std::vector<double> block2{-5.4, 1.4, 6.3, 2.7, -9.1, 4.9, 6.2};
 
-constexpr std::size_t blockSize(10000);
+  LowPassFilter lpf(filterCoefficients);
+  std::vector<double> blockOutput1(5);
+  std::vector<double> blockOutput2(5);
 
-int main() {
-  std::vector<double> coef = filterCoefficientReader(TEST_DATA_DIR "/filter_coefficients.bin");
-  const std::size_t haloSize (coef.size() - 1);
+  lpf(std::begin(block1) + 2, std::end(block1), std::begin(blockOutput1));
+  lpf(std::begin(block2) + 2, std::end(block2), std::begin(blockOutput2));
 
-  BlockReader blcRdr(TEST_DATA_DIR "/chirp_signal.bin", blockSize);
-  BlockWriter blcWtr(TEST_DATA_DIR "/filtered_chirp_signal.bin");
-  LowPassFilter lpf(coef);
-
-  std::vector<double> blockAndHalo(blockSize+haloSize);
-  std::vector<double> lpfOutput(blockSize);
-  auto blockIter(std::begin(blockAndHalo) + static_cast<long>(haloSize));
-  for (std::size_t i = 0; i < blcRdr.numOfBlocks(); i++) {
-    blcRdr.readNextBlock(blockIter);
-
-    lpf(blockIter, std::end(blockAndHalo), std::begin(lpfOutput));
-    blcWtr.writeBlock(std::begin(lpfOutput), std::end(lpfOutput));
-    std::copy(std::end(blockAndHalo) - static_cast<long>(haloSize), std::end(blockAndHalo), std::begin(blockAndHalo));
-  }
-
-  return 0;
+  // FIXME: vector matchers are deprecated.
+  REQUIRE_THAT(blockOutput1, Catch::Matchers::Approx(std::vector<double>{-4.26, -37.42, -3.38, 53.96, 3.98}));
+  REQUIRE_THAT(blockOutput2, Catch::Matchers::Approx(std::vector<double>{-60.55, -36.39, 69.2, 0, -78.81}));
 }
+//NOLINTEND
